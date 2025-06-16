@@ -137,7 +137,7 @@ const prev = () => {
               <p className="caption-text">Soft, elegant moments before the big day.</p>
             </div>
             <div className="split-text">
-              <h2><span>BCL Toronto</span> Standard</h2>
+              <h2><span>Beauty Code Lab</span> Toronto</h2>
               <p>
                 We believe every moment you get ready should feel calm, elevated, and personal. 
                 Our team delivers a luxury experience — from your first message to your final touch-up — 
