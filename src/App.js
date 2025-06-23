@@ -73,8 +73,8 @@ function sendEmail(e) {
   e.preventDefault();
 
   emailjs.sendForm(
-    'service_tn5mhwe',  // ✅ your new Gmail service ID
-    'service_n6bhr2r',          // ✅ Your template ID
+    'service_b657s6l',  // ✅ your new Gmail service ID
+    'template_li3vb6j',          // ✅ Your template ID
     form.current,
     'JdZlz19-1Z9-oowWO'          // ✅ Your public key
   )
