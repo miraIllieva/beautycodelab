@@ -1,4 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+
+import emailjs from '@emailjs/browser';
+
+
+
 
 import './App.css';
 
@@ -40,8 +45,16 @@ function App() {
  const [showGallery, setShowGallery] = useState(false);
  const [showServices, setShowServices] = useState(false);
 
+ const [confirmationMessage, setConfirmationMessage] = useState('');
+
+ const confirmationRef = useRef(null);
+
+
+
 const [zoomedImage, setZoomedImage] = useState(null);
 const visible = reviews.slice(startIndex, startIndex + 3);
+const form = useRef();
+
 
 const next = () => {
   if (startIndex + 3 < reviews.length) {
@@ -54,6 +67,42 @@ const prev = () => {
     setStartIndex(startIndex - 1);
   }
 };
+
+
+function sendEmail(e) {
+  e.preventDefault();
+
+  emailjs.sendForm(
+    'service_tn5mhwe',  // ✅ your new Gmail service ID
+    'template_ui1v4bv',          // ✅ Your template ID
+    form.current,
+    'JdZlz19-1Z9-oowWO'          // ✅ Your public key
+  )
+  .then(
+  (result) => {
+    setConfirmationMessage("Thank you! Your booking request has been sent. We'll get back to you shortly!");
+    setTimeout(() => {
+      if (confirmationRef.current) {
+        const element = confirmationRef.current;
+const offset = -150; // move 100px higher than the element
+const y = element.getBoundingClientRect().top + window.pageYOffset + offset;
+window.scrollTo({ top: y, behavior: "smooth" });
+
+      }
+    }, 100); // wait briefly to ensure message is in DOM
+  },
+
+    (error) => {
+      alert('Oops! Something went wrong. Please try again.');
+      console.error(error);
+    }
+  );
+
+  e.target.reset();
+}
+
+
+
 
 
   return (
@@ -117,7 +166,7 @@ const prev = () => {
 
       {/* About Section */}
       <section id="about">
-        <h2>About BCl Toronto</h2>
+        <h2>About BCL Toronto</h2>
         <p>
           Beauty Code Lab Toronto is a mobile hair and makeup studio serving clients across Toronto and the GTA. We specialize in creating effortless, timeless beauty for weddings, events, photoshoots, and all of life’s special moments.
         </p>
@@ -263,12 +312,14 @@ const prev = () => {
         </div>
       </section>
 
+ 
+
       {/* Booking Form */}
      <section id="contact" className="contact-section">
   <h2>Book Your Glow-Up</h2>
   <p>Whether you're a bride, going to an event, or just want to look and feel amazing — send us a request below!</p>
   <p style={{ marginBottom: "10px" }}>
-    Prefer to speak directly? Call or text us at <strong>(416) 555-1234</strong>
+    Prefer to speak directly? Call or text us at <strong>(365) 889-1600</strong>
   </p>
 
   <div className="contact-wrapper">
@@ -277,39 +328,65 @@ const prev = () => {
       <img src="/side1.jpg" alt="Bridal styling inspiration" />
     </div>
 
-    {/* Booking Form */}
-    <form className="booking-form">
-      <label>
-        Name:
-        <input type="text" name="name" required />
-      </label>
-      <label>
-        Email:
-        <input type="email" name="email" required />
-      </label>
-      <label>
-        Event Date:
-        <input type="date" name="date" required />
-      </label>
-      <label>
-        Service:
-        <select name="service" required>
-          <option value="">-- Select --</option>
-          <option value="Hair">Hair</option>
-          <option value="Makeup">Makeup</option>
-          <option value="Hair + Makeup">Hair + Makeup</option>
-        </select>
-      </label>
-      <label>
-        Number of People:
-        <input type="number" name="people" min="1" required />
-      </label>
-      <label>
-        Message:
-        <textarea name="message" placeholder="Tell us more (e.g., occasion, location, timing)" />
-      </label>
-      <button type="submit">Send Request</button>
-    </form>
+ 
+
+<form ref={form} className="booking-form" onSubmit={sendEmail}>
+
+  <label>
+    Name:
+    <input type="text" name="name" required />
+  </label>
+
+  <label>
+    Email:
+    <input type="email" name="email" required />
+  </label>
+
+  <label>
+    Event Date:
+    <input type="date" name="date" required />
+  </label>
+
+  <label>
+    Service:
+    <select name="service" required>
+      <option value="">-- Select --</option>
+      <option value="Hair">Hair</option>
+      <option value="Makeup">Makeup</option>
+      <option value="Hair + Makeup">Hair + Makeup</option>
+    </select>
+  </label>
+
+  <label>
+    Number of People:
+    <input type="number" name="people" min="1" required />
+  </label>
+
+  <label>
+    Message:
+    <textarea name="message" placeholder="Tell us more (e.g., occasion, location, timing)" />
+  </label>
+          
+
+  {/* ✅ Hidden time field added directly into JSX */}
+  <input type="hidden" name="time" value={new Date().toLocaleString()} />
+
+  <button type="submit">Send Request</button>
+
+  {confirmationMessage && (
+  <p ref={confirmationRef} className="confirmation-message">{confirmationMessage}</p>
+)}
+
+
+{/* <h2>Send a Booking Request</h2> */}
+
+
+
+
+
+</form>
+
+
 
     {/* Right Image */}
     <div className="contact-image">
