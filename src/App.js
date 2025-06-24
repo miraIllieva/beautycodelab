@@ -76,7 +76,7 @@ function sendEmail(e) {
     'service_b657s6l',  // ✅ your new Gmail service ID
     'template_li3vb6j',          // ✅ Your template ID
     form.current,
-    'JdZlz19-1Z9-oowWO'          // ✅ Your public key
+    'vD5njkNSn14ZgmtUf'          // ✅ Your public key
   )
   .then(
   (result) => {
