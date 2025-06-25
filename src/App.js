@@ -73,10 +73,10 @@ function sendEmail(e) {
   e.preventDefault();
 
   emailjs.sendForm(
-    'service_b657s6l',  // ✅ your new Gmail service ID
-    'template_li3vb6j',          // ✅ Your template ID
+    'service_b657s6l',  
+    'template_li3vb6j',          
     form.current,
-    'vD5njkNSn14ZgmtUf'          // ✅ Your public key
+    'vD5njkNSn14ZgmtUf'        
   )
   .then(
   (result) => {
@@ -368,7 +368,7 @@ window.scrollTo({ top: y, behavior: "smooth" });
   </label>
           
 
-  {/* ✅ Hidden time field added directly into JSX */}
+  
   <input type="hidden" name="time" value={new Date().toLocaleString()} />
 
   <button type="submit">Send Request</button>
